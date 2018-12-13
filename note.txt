@@ -1,0 +1,7 @@
+
+Grids: [100x100 = 10 000]
+    0. No
+    1. Fit
+    2. Flu
+    3. Ebola
+    4. Anthrax
