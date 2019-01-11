@@ -11,4 +11,4 @@ The Universe of the [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game
     java -classpath ./bin com.github.mamadaliev.Main
 
 ## Demo
-![Demo](https://octodex.github.com/images/tentocats.jpg)
+![Demo](https://i.ibb.co/XYJRtDn/imitation.gif)
