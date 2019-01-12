@@ -4,6 +4,8 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -11,6 +13,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioMenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import com.github.mamadaliev.utils.Options;
@@ -18,7 +25,6 @@ import com.github.mamadaliev.utils.Options;
 public class Main extends Application implements Options {
     private GraphicsContext context;
     private Scene scene;
-    private Scene diagrams;
     private static long nextSecond = System.currentTimeMillis() + 1000;
     private static int framesInLastSecond = 0;
     private static int framesInCurrentSecond;
@@ -31,6 +37,8 @@ public class Main extends Application implements Options {
     private int population = 0;
     private ObservableList<XYChart.Data> data1;
     private ObservableList<XYChart.Data> data2;
+    private Stage diagrams;
+    private RadioMenuItem[] viewsItem;
 
     /**
      * The main method.
@@ -56,28 +64,39 @@ public class Main extends Application implements Options {
         data1 = FXCollections.observableArrayList();
         data2 = FXCollections.observableArrayList();
         stage.setScene(scene);
+        stage.getIcons().add(new Image("/icon.png"));
 
         // initArray();
-
         // generate
         generate();
-
         // showArray();
-
+        showMenu(root);
         keyEvents();
+        showDiagrams();
+
+        viewsItem[1].setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (!viewsItem[1].isSelected()) {
+                    diagrams.show();
+                    viewsItem[1].setSelected(true);
+                } else {
+                    viewsItem[1].setSelected(false);
+                    System.out.println(1);
+                    diagrams.hide();
+                }
+            }
+        });
 
         // update
         new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if (population == 50) {
-                    showDiagrams(stage);
-                    stop();
-                }
+                if (population == 1000) stop();
                 clear();
                 algorithm();
                 drawGrids();
-                showFPS();
+                showDetails();
                 population++;
                 data1.add(new XYChart.Data(population, countOfTypesInArray(1)));
                 data2.add(new XYChart.Data(population, countOfTypesInArray(2)));
@@ -149,7 +168,7 @@ public class Main extends Application implements Options {
      */
     private void delay() {
         try {
-            int millis = 200;
+            int millis = 0;
             Thread.sleep(millis);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -233,7 +252,7 @@ public class Main extends Application implements Options {
     /**
      * Show FPS in the window.
      */
-    private void showFPS() {
+    private void showDetails() {
         if (System.currentTimeMillis() > nextSecond) {
             nextSecond += 1000;
             framesInLastSecond = framesInCurrentSecond;
@@ -260,9 +279,43 @@ public class Main extends Application implements Options {
     }
 
     /**
+     * Menu.
+     */
+    private void showMenu(Group group) {
+        MenuBar menuBar = new MenuBar();
+        menuBar.useSystemMenuBarProperty().set(true);
+        group.getChildren().add(menuBar);
+
+        Menu menu1 = new Menu("Edit");
+        MenuItem[] editItem = new MenuItem[2];
+        editItem[0] = new MenuItem("Set options");
+        editItem[1] = new MenuItem("Random generate");
+
+        Menu menu2 = new Menu("Views");
+        viewsItem = new RadioMenuItem[3];
+        viewsItem[0] = new RadioMenuItem("Main");
+        viewsItem[0].setSelected(true);
+        viewsItem[1] = new RadioMenuItem("Diagrams");
+        viewsItem[1].setSelected(true);
+        viewsItem[2] = new RadioMenuItem("Labels");
+        viewsItem[2].setSelected(true);
+
+        Menu menu3 = new Menu("Help");
+        MenuItem[] helpItem = new MenuItem[3];
+        helpItem[0] = new MenuItem("Docs");
+        helpItem[1] = new MenuItem("FAQ");
+        helpItem[2] = new MenuItem("Open source");
+
+        menu1.getItems().addAll(editItem[0], editItem[1]);
+        menu2.getItems().addAll(viewsItem[0], viewsItem[1], viewsItem[2]);
+        menu3.getItems().addAll(helpItem[0], helpItem[1], helpItem[2]);
+        menuBar.getMenus().addAll(menu1, menu2, menu3);
+    }
+
+    /**
      * Show diagrams.
      */
-    private void showDiagrams(Stage stage) {
+    private void showDiagrams() {
         NumberAxis x = new NumberAxis();
         NumberAxis y = new NumberAxis();
         LineChart<Number, Number> numberLineChart = new LineChart<Number, Number>(x, y);
@@ -273,9 +326,12 @@ public class Main extends Application implements Options {
         series2.setName("Virus B");
         series1.setData(data1);
         series2.setData(data2);
-        diagrams = new Scene(numberLineChart, WINDOW_WIDTH, WINDOW_WIDTH >> 1);
+
+        diagrams = new Stage();
+        Scene diagramScene = new Scene(numberLineChart, WINDOW_WIDTH, WINDOW_WIDTH >> 1);
         numberLineChart.getData().add(series1);
         numberLineChart.getData().add(series2);
-        stage.setScene(diagrams);
+        diagrams.setScene(diagramScene);
+        diagrams.show();
     }
 }
