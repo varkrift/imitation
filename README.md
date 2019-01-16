@@ -4,11 +4,11 @@ The Universe of the [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game
 ## Start
 **Compile:**
 
-    javac -sourcepath ./src -d bin src/app/Main.java
+    javac -sourcepath src -d bin src/app/Main.java
 
 **Run:**
 
-    java -classpath ./bin Main
+    java -classpath bin Main
 
 <!--## Demo
 ![Demo](https://i.ibb.co/XYJRtDn/imitation.gif)-->
