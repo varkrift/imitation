@@ -8,4 +8,4 @@ The Universe of the [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game
 
 **Run:**
 
-    java -classpath bin Main
+    java -classpath bin app.Main
