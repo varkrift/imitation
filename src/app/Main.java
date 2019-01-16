@@ -1,5 +1,6 @@
-package com.github.mamadaliev;
+package app;
 
+import app.utils.Options;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -13,14 +14,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.RadioMenuItem;
-import javafx.scene.image.Image;
+import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import com.github.mamadaliev.utils.Options;
 
 public class Main extends Application implements Options {
     private GraphicsContext context;
@@ -39,6 +35,8 @@ public class Main extends Application implements Options {
     private ObservableList<XYChart.Data> data2;
     private Stage diagrams;
     private RadioMenuItem[] viewsItem;
+    private boolean control = false;
+    private Button submit;
 
     /**
      * The main method.
@@ -56,6 +54,19 @@ public class Main extends Application implements Options {
     @Override
     public void start(Stage stage) {
         stage.setTitle("Imitation");
+
+        // Options group
+        Group optionsGroup = new Group();
+        submit = new Button("Save");
+        submit.setMinHeight(30);
+        submit.setMinWidth(100);
+        submit.setLayoutX(0);
+        submit.setLayoutY(0);
+        optionsGroup.getChildren().addAll(submit);
+
+
+
+        // Root group
         Group root = new Group();
         Canvas canvas = new Canvas(ARRAY_WIDTH * grid_width, ARRAY_HEIGHT * grid_height);
         root.getChildren().add(canvas);
@@ -64,7 +75,6 @@ public class Main extends Application implements Options {
         data1 = FXCollections.observableArrayList();
         data2 = FXCollections.observableArrayList();
         stage.setScene(scene);
-        stage.getIcons().add(new Image("/icon.png"));
 
         // initArray();
         // generate
@@ -72,7 +82,16 @@ public class Main extends Application implements Options {
         // showArray();
         showMenu(root);
         keyEvents();
+        showOptions(stage);
         showDiagrams();
+
+        submit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                control = !control;
+                System.out.println(control);
+            }
+        });
 
         viewsItem[1].setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -93,6 +112,8 @@ public class Main extends Application implements Options {
             @Override
             public void handle(long now) {
                 if (population == 1000) stop();
+                if (control == true) stop();
+                else start();
                 clear();
                 algorithm();
                 drawGrids();
@@ -103,7 +124,6 @@ public class Main extends Application implements Options {
                 delay();
             }
         }.start();
-
         stage.show();
     }
 
@@ -333,5 +353,12 @@ public class Main extends Application implements Options {
         numberLineChart.getData().add(series2);
         diagrams.setScene(diagramScene);
         diagrams.show();
+    }
+
+    /**
+     * Show options.
+     */
+    private void showOptions(Stage stage) {
+
     }
 }

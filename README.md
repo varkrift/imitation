@@ -8,7 +8,7 @@ The Universe of the [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game
 
 **Run:**
 
-    java -classpath ./bin com.github.mamadaliev.Main
+    java -classpath ./bin Main
 
 <!--## Demo
 ![Demo](https://i.ibb.co/XYJRtDn/imitation.gif)-->

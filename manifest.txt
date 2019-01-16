@@ -1,2 +1,2 @@
 manifest-version: 1.0
-main-class: com.github.mamadaliev.Main
+main-class: Main

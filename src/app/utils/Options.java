@@ -1,4 +1,4 @@
-package com.github.mamadaliev.utils;
+package app.utils;
 
 public interface Options {
     int WINDOW_WIDTH = 1000;
