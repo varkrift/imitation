@@ -4,7 +4,7 @@ The Universe of the [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game
 ## Start
 **Compile:**
 
-    javac -sourcepath ./src -d bin src/com/github/mamadaliev/Main.java
+    javac -sourcepath ./src -d bin src/app/Main.java
 
 **Run:**
 
