@@ -1,5 +1,6 @@
 # Imitation v.1.0
-The Universe of the [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) is an infinite, two-dimensional orthogonal grid of square cells, each of which is in one of two possible states, living or dead (or inhabited and uninhabited, respectively). Each cell interacts with its eight neighbors, which are adjacent horizontally, vertically or diagonally. At each step in time transitions occur.
+
+[Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) представляет собой бесконечную, двумерную ортогональную сетку квадратных ячеек, каждая из которых находится в одном из двух возможных состояний - живом или мертвом (или обитаемая/необитаемых соответственно). Каждая ячейка взаимодействует со своими восемью соседями, которые соседствуют по горизонтали, вертикали или диагонали. На каждом шаге во времени происходят переходы.
 
 ## Start
 **Compile:**
